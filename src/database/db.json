@@ -1,0 +1,22 @@
+{
+  "infos": [
+    {
+      "id": 1,
+      "photo": "",
+      "name": "",
+      "role": "",
+      "briefing": ""
+    }
+  ],
+  "experiences": [
+    {
+      "id": 1,
+      "title": "Desenvolvedor Júnior de Software",
+      "description": "",
+      "type": "Profissional",
+      "initialYear": "2023",
+      "finalYear": "2024"
+    }
+  ],
+  "portfolio": []
+}
