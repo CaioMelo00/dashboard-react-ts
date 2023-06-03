@@ -3,10 +3,11 @@ import api from './api';
 export interface Experience { // Este objeto será importado para api.ts
     id: number;
     title: string,
-    description: string,
     type: string,
+    place: string,
     initialYear: string,
     finalYear: string,
+    description: string,
 }
 
 // CRUD

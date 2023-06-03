@@ -8,9 +8,10 @@ import styles from './RegisterExp.module.css';
 import Input from '../../../components/forms/Input';
 import Textarea from '../../../components/forms/Textarea';
 import Select from '../../../components/forms/Select';
+import Button from '../../../components/common/Button';
+import Title from '../../../components/common/Title';
 
 import { Experience, createOrUpdateExperience } from '../../../services/experienceService';
-
 
 const RegisterExp: React.FC = () => {
 
@@ -21,18 +22,20 @@ const RegisterExp: React.FC = () => {
     const initialValues: Experience = {
         id: 0,
         title: '',
-        description: '',
         type: '',
+        place: '',
         initialYear: '',
-        finalYear: ''
+        finalYear: '',
+        description: ''
     };
 
     const validationSchema = Yup.object().shape({
         title: Yup.string().required('Campo obrigatório'),
-        description: Yup.string(),
         type: Yup.string().required('Campo obrigatório'),
+        place: Yup.string().required('Campo obrigatório'),
         initialYear: Yup.number().required('Campo obrigatório').typeError('Um número é obrigatório'),
         finalYear: Yup.number().required('Campo obrigatório').typeError('Um número é obrigatório'),
+        description: Yup.string()
     });
 
     const onSubmit = async (values: Experience, { resetForm }: { resetForm: () => void }) => {
@@ -57,13 +60,31 @@ const RegisterExp: React.FC = () => {
             >
                 {({ errors, touched }) => (
                     <Form className={styles.form}>
-                        <h2 className={styles.title}>Cadastrar Experiência</h2>
+                        <Title>Cadastrar Experiência</Title>
                         
                         <Input                       
                             label='Título'
                             name='title'
                             errors={errors.title}
                             touched={touched.title}
+                        />
+
+                        <Select
+                            label='Tipo de experiência'
+                            name='type'
+                            options={[
+                                { value: 'Profissional', label: 'Profissional' },
+                                { value: 'Acadêmica', label: 'Acadêmica' },
+                            ]}
+                            errors={errors.type}
+                            touched={touched.type}
+                        />
+
+                        <Input                       
+                            label='Empresa/Instituição'
+                            name='place'
+                            errors={errors.place}
+                            touched={touched.place}
                         />
 
                         <Input
@@ -80,17 +101,6 @@ const RegisterExp: React.FC = () => {
                             touched={touched.finalYear}
                         />
 
-                        <Select
-                            label='Tipo de experiência'
-                            name='type'
-                            options={[
-                                { value: 'Profissional', label: 'Profissional' },
-                                { value: 'Acadêmico', label: 'Acadêmico' },
-                            ]}
-                            errors={errors.type}
-                            touched={touched.type}
-                        />
-
                         <Textarea
                             label='Descrição'
                             name='description'
@@ -98,7 +108,11 @@ const RegisterExp: React.FC = () => {
                             touched={touched.description}
                         />
 
-                        <button type='submit' className={styles.button}>Salvar</button>
+                        <Button 
+                            type='submit'
+                        >
+                            Salvar
+                        </Button>
                     </Form>
                 )}
             </Formik>

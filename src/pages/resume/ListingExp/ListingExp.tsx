@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './ListingExp.module.css';
@@ -11,7 +10,7 @@ const ListingExp: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const [experiences, setExperiences] = React.useState<Experience[]>([]);
+    const [experiences, setExperiences] = useState<Experience[]>([]);
 
     const fetchExperiences = async () => {
         try {
@@ -47,10 +46,11 @@ const ListingExp: React.FC = () => {
             <thead>
                 <tr>
                     <th>Título</th>
-                    <th>Descrição</th>
                     <th>Tipo</th>
+                    <th>Empresa/Instituição</th>
                     <th>Ano Início</th>
                     <th>Ano Fim</th>
+                    <th>Descrição</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -58,10 +58,11 @@ const ListingExp: React.FC = () => {
                 {experiences.map((experience, index) => (
                     <tr key={index}>
                         <td>{experience.title}</td>
-                        <td>{experience.description}</td>
                         <td>{experience.type}</td>
+                        <td>{experience.place}</td>
                         <td>{experience.initialYear}</td>
                         <td>{experience.finalYear}</td>
+                        <td>{experience.description}</td>
                         <td>
                             <button onClick={() => handleEdit(experience)}>Editar</button>
                             <button onClick={() => handleDelete(experience.id)}>Excluir</button>

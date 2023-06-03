@@ -8,6 +8,8 @@ import Input from '../../../components/forms/Input';
 import Textarea from '../../../components/forms/Textarea';
 import { Infos, updateInfos, getInfos } from '../../../services/infosService';
 import InfosCard from './InfosCard';
+import Button from '../../../components/common/Button';
+import Title from '../../../components/common/Title';
 
 const RegisterInfos: React.FC = () => {
 
@@ -74,7 +76,7 @@ const RegisterInfos: React.FC = () => {
                 onSubmit={onSubmit}>
                 {({ errors, touched }) => (
                     <Form className={styles.form}>
-                        <h2 className={styles.title}>Cadastrar Informações</h2>
+                        <Title>Cadastrar Informações</Title>
 
                         <Input 
                             label='Foto'
@@ -104,24 +106,25 @@ const RegisterInfos: React.FC = () => {
                             touched={touched.briefing}
                         />
 
-                        <button type='submit' className={styles.button}>Salvar</button>
+                        <Button type='submit'>Salvar</Button>
                     </Form>
                 )}
             </Formik>
 
 
             {infos &&
+                // Verificação se o objeto está vazio
                 Object.entries(infos).some(
                     ([key, value]) => key !== 'id' && value.trim() !== ''
                 ) && (
                     <div className={styles.cardContainer}>
                         <InfosCard infos={infos} />
-                        <button 
-                            type='submit' 
-                            onClick={handleDelete} 
-                            className={`${styles.button} ${styles.deleteButton}`}>
+                        <Button
+                            onClick={handleDelete}
+                            red={true}
+                        >
                             Deletar
-                        </button>
+                        </Button>
                     </div>
                 )}
         </div>

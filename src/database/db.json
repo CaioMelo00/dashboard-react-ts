@@ -1,4 +1,11 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "email": "caio.00vinicius@hotmail.com",
+      "password": "Vin1ciu$2018"
+    }
+  ],
   "infos": [
     {
       "id": 1,
@@ -11,11 +18,12 @@
   "experiences": [
     {
       "id": 1,
-      "title": "Desenvolvedor Júnior de Software",
-      "description": "",
+      "title": "Vendedor",
       "type": "Profissional",
-      "initialYear": "2023",
-      "finalYear": "2024"
+      "place": "Big Bompreço",
+      "initialYear": "2020",
+      "finalYear": "2021",
+      "description": "adfjjfddaf"
     }
   ],
   "portfolio": []

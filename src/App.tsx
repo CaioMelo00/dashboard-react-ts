@@ -2,29 +2,21 @@ import React from 'react';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Layout from './components/layout';
+import Login from './pages/login';
 
-import Home from './pages/home';
-import RegisterInfos from './pages/resume/RegisterInfos';
-import RegisterExp from './pages/resume/RegisterExp';
-import ListingExp from './pages/resume/ListingExp';
-import RegisterPortfolio from './pages/portfolio/RegisterPortfolio';
-import ListingPortfolio from './pages/portfolio/ListingPortfolio';
+import { AuthProvider } from './contexts/AuthContext';
+import AuthRoutes from './routes/AuthRoutes';
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <Layout>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/resume/infos/register' element={<RegisterInfos />} />
-          <Route path='/resume/experiences/register' element={<RegisterExp />} />
-          <Route path='/resume/experiences/listing' element={<ListingExp />} />
-          <Route path='/portfolio/register' element={<RegisterPortfolio />} />
-          <Route path='/portfolio/listing' element={<ListingPortfolio />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/*' element={<AuthRoutes />} />
         </Routes>
-      </Layout>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 

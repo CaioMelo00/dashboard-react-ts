@@ -1,39 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './ListingPortfolio.module.css';
 
-interface Portfolio {
-    link: string;
-    image: string;
-    title: string;
-};
+import { Portfolio, deletePortfolio, getPortfolio } from '../../../services/portfolioService';
+
 
 const ListingPortfolio: React.FC = () => {
 
-    const [portfolio, setPortfolio] = useState<Portfolio[]>([
-        {
-            link: 'https://academy.comeialabs.com.br/',
-            image: 'https://i.imgflip.com/6woq7y.jpg',
-            title: 'Portfolio 1'
-        },
-        {
-            link: 'https://academy.comeialabs.com.br/',
-            image: 'https://i.imgflip.com/28wmke.jpg',
-            title: 'Portfolio 2'
-        },
-        {
-            link: 'https://academy.comeialabs.com.br/',
-            image: 'https://media.tenor.com/vDUm8YSvB6QAAAAC/noice-meme.gif',
-            title: 'Portfolio 3'
-        }
-    ]);
+    const navigate = useNavigate();
 
-    const handleEdit = (index: number) => {
-        // lógica para lidar com a edição do item de índice 'index'
+    const [portfolio, setPortfolio] = useState<Portfolio[]>([]);
+
+    const fetchPortfolios = async () => {
+        try {
+            const portfolio = await getPortfolio();
+            setPortfolio(portfolio);
+        } catch (error) {
+            console.log('Erro ao buscar esperiências', error);
+            alert('Não foi possível encontrar a experiência');
+        }
     };
-    
-    const handleDelete = (index: number) => {
-        // lógica para lidar com a edição do item de índice 'index'
+
+    useEffect(() => {
+        fetchPortfolios();
+    }, []);
+
+    const handleEdit = (portfolio: Portfolio) => {
+        navigate('/portfolio/register', { state: portfolio });
+    };
+
+    const handleDelete = async (id: number) => {
+        try {
+            await deletePortfolio(id);
+            fetchPortfolios();
+            alert('Portfólio excluído com sucesso!');
+        } catch (error) {
+            console.log('Erro ao excluir portfólio', error);
+            alert('Ocorreu um erro ao excluir a portfólio');
+        }
     };
 
     return (
@@ -53,8 +58,8 @@ const ListingPortfolio: React.FC = () => {
                         <td><img src={itemPortfolio.image} alt={itemPortfolio.title} className={styles.image} /></td>
                         <td><a href={itemPortfolio.link} target="_blank" rel="noopener noreferrer">{itemPortfolio.link}</a></td>
                         <td>
-                            <button onClick={() => handleEdit(index)}>Editar</button>
-                            <button onClick={() => handleDelete(index)}>Excluir</button>
+                            <button onClick={() => handleEdit(itemPortfolio)}>Editar</button>
+                            <button onClick={() => handleDelete(itemPortfolio.id)}>Excluir</button>
                         </td>
                     </tr>
                 ))}

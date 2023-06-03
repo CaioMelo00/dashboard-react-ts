@@ -2,19 +2,24 @@ import React from 'react';
 
 import { Formik, Form} from 'formik';
 import * as Yup from 'yup';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './RegisterPortfolio.module.css';
 import Input from '../../../components/forms/Input';
+import Button from '../../../components/common/Button';
+import Title from '../../../components/common/Title';
 
-interface FormValues { // objeto
-    title: string
-    image: string;
-    link: string;
-}
+import { Portfolio, createOrUpdatePortfolio } from '../../../services/portfolioService';
+
 
 const RegisterPortfolio: React.FC = () => {
 
-    const initialValues: FormValues = {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const portfolio = location.state as Portfolio;
+
+    const initialValues: Portfolio = {
+        id: 0,
         title: '',
         image: '',
         link: ''
@@ -26,19 +31,29 @@ const RegisterPortfolio: React.FC = () => {
         title: Yup.string().required('Campo obrigatório')
     });
 
-    const onSubmit = (values: FormValues, { resetForm }: { resetForm: () => void }) => {
-        // Lógica de envio para o backend
-        console.log(values);
-        resetForm();
-        alert('Formulário enviado com sucesso!')
+    const onSubmit = async (values: Portfolio, { resetForm }: { resetForm: () => void }) => {
+        try {
+            await createOrUpdatePortfolio(values);
+            console.log(values);
+            resetForm();
+            navigate('/portfolio/listing');
+            alert('Formulário enviado com sucesso!');
+        } catch (error) {
+            console.log(error);
+            alert('Ocorreu um erro ao enviar o formulário');
+        }
     };
 
     return (
         <div className={styles.formWrapper}>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+            <Formik 
+                initialValues={portfolio || initialValues} 
+                validationSchema={validationSchema} 
+                onSubmit={onSubmit}
+            >
                 {({ errors, touched }) => (
                     <Form className={styles.form}>
-                        <h2 className={styles.title}>Cadastrar Portfólio</h2>
+                        <Title>Cadastrar Portfólio</Title>
                         
                         <Input                       
                             label='Título'
@@ -61,7 +76,11 @@ const RegisterPortfolio: React.FC = () => {
                             touched={touched.link}
                         />
 
-                        <button type='submit' className={styles.button}>Salvar</button>
+                        <Button 
+                            type='submit'
+                        >
+                            Salvar
+                        </Button>
                     </Form>
                 )}
             </Formik>

@@ -8,11 +8,12 @@ interface InputProps {
     label: string;
     name: string;
     type?: string;
+    placeholder?: string;
     errors?: string;
     touched?: boolean;
 };
 
-const Input: React.FC<InputProps> = ({ label, name, type = 'text', errors, touched }) => {
+const Input: React.FC<InputProps> = ({ label, name, type = 'text', placeholder, errors, touched }) => {
     return (
         <fieldset className={styles.formGroup}>
             <label htmlFor={name} className={styles.label}>
@@ -21,7 +22,8 @@ const Input: React.FC<InputProps> = ({ label, name, type = 'text', errors, touch
             <Field 
                 type={type} 
                 id={name} 
-                name={name} 
+                name={name}
+                placeholder={placeholder}
                 className={`${styles.input} ${touched && errors && styles.error}`} />
             <ErrorMessage name={name} component="div" className={styles.errorMsg} />
         </fieldset>
